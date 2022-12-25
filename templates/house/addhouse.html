@@ -1,0 +1,29 @@
+<h1>Add a house</h1>
+
+<form method='post' action="{{url_for('addhouse')}}">
+  <!-- -----------------------------------------------  -->
+  {{form.houseName(placeholder="House Name")}} <br>
+  {% for error in form.houseName.errors %}
+  <li style="color: red">{{error}}</li>
+  {% endfor %}
+  <!-- -----------------------------------------------  -->
+  {{form.houseAddress(placeholder="House Address")}} <br>
+  {% for error in form.houseAddress.errors %}
+  <li style="color: red">{{error}}</li>
+  {% endfor %}
+  <!-- -----------------------------------------------  -->
+  {{form.houseRooms(placeholder="Number of Rooms")}} <br>
+  {% for error in form.houseRooms.errors %}
+  <li style="color: red">{{error}}</li>
+  {% endfor %}
+  <!-- -----------------------------------------------  -->
+  {{form.houseBeds(placeholder="Number of Beds")}} <br>
+  {% for error in form.houseBeds.errors %}
+  <li style="color: red">{{error}}</li>
+  {% endfor %}
+  <!-- -----------------------------------------------  -->
+  <input type="submit" value="Add house" />
+  {{form.csrf_token}}
+  <!-- -----------------------------------------------  -->
+
+</form>

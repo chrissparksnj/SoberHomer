@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+
+{% block content %}
+<!-- --------------------------------------------- -->
+<!---------------- Flash Messages -------------------->
+<!-- ---------------------------------------------- -->
+{% with messages = get_flashed_messages() %}
+{% if messages %}
+{% for message in messages %}
+<span style="color:red"> {{ message }} <br></span>
+{% endfor %}
+{% endif %}
+{% endwith %}
+<!-- --------------------------------------------- -->
+
+
+User Id {{ current_user.id }}
+<li><a href="/addhouse">Add House To Track</a></li>
+<li><a href="/logout">Logout</a></li>
+
+
+<!-- --------------------------------------------- -->
+<!---------------- Houses Table   -------------------->
+<!-- ---------------------------------------------- -->
+<style>
+  table,
+  th,
+  td {
+    border: 1px solid black;
+  }
+</style>
+
+{% if houses is defined and houses|length > 0 %}
+<table>
+  <tr>
+    <th>House Name</th>
+    <th>House Address</th>
+    <th>House Rooms</th>
+    <th>House Beds</th>
+  </tr>
+
+  {% for house in houses %}
+  <tr>
+
+    <td>{{house.house_name}}</td>
+    <td>{{house.house_address}}</td>
+    <td>{{house.house_rooms}}</td>
+    <td>{{house.house_beds}}</td>
+  </tr>
+  {% endfor %}
+  {%endif%}
+
+
+
+</table>
+
+
+<!-- --------------------------------------------- -->
+
+
+
+{% endblock %}

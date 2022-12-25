@@ -1,13 +1,26 @@
 {% extends "base.html" %}
 
+
+
 {%block content%}
 
 <form action="{{url_for('login')}}" method="post">
   {{form.username(placeholder='username')}} <br>
   {{form.password(placeholder='password')}} <br>
   <input type="submit" value="Login" />
+  <a href="/signup">Signup</a>
   {{form.csrf_token}}
 </form>
+<!-- Flash Messages -->
+{% with messages = get_flashed_messages() %}
+{% if messages %}
 
+{% for message in messages %}
+<span style="color:red"> {{ message }}</span>
+{% endfor %}
+
+{% endif %}
+{% endwith %}
+<!-- Flash Messages -->
 
 {% endblock %}
