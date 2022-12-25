@@ -23,9 +23,17 @@ class User(db.Model):
 def index():
     return render_template("index.html")
 
-@app.route("/login")
+@app.route("/login", methods=["GET", "POST"])
 def login():
-    return render_template("/user/login.html")
+    form = LoginForm()
+    if form.validate_on_submit():
+        username = form.username.data
+        password = form.password.data
+        user = User.query.filter_by(username=username).first()
+        if user.password == password:
+            return "Logged In"
+        return "Invalid Username or Password, GO BACK"
+    return render_template("/user/login.html", form=form)
 
 @app.route("/signup", methods=["GET", "POST"])
 def signup():
