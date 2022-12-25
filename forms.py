@@ -17,3 +17,6 @@ class AddHouseForm(FlaskForm):
   houseAddress = StringField(label="House Address", validators=[DataRequired()])
   houseRooms = IntegerField(label="Number Of Rooms", validators=[DataRequired()])
   houseBeds = IntegerField(label="Number Of Beds", validators=[DataRequired()])
+
+
+

@@ -1,0 +1,11 @@
+<h1>Add Tenant</h1>
+
+<form action="{{url_for('addtenant')}}" method="post">
+  {{form.name(placeholder="Tenant Name")}} <br>
+  {{form.age(placeholder="Age")}} <br>
+  {{form.room_number(placeholder="Room Number")}} <br>
+  {{form.bed_number(placeholder="Bed Number")}} <br>
+  {{form.house_name}} <br>
+  {{form.csrf_token}}
+  <input type="submit" value="Add house" />
+</form>

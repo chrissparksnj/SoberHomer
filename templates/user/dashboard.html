@@ -14,9 +14,7 @@
 <!-- --------------------------------------------- -->
 
 
-User Id {{ current_user.id }}
-<li><a href="/addhouse">Add House To Track</a></li>
-<li><a href="/logout">Logout</a></li>
+
 
 
 <!-- --------------------------------------------- -->
@@ -30,7 +28,33 @@ User Id {{ current_user.id }}
   }
 </style>
 
+{% if tenants is defined and tenants | length > 0 %}
+<h3>Tenants</h3>
+<table>
+  <tr>
+    <th>Tenant Name</th>
+    <th>Tenant Age</th>
+    <th>Tenant Room Number</th>
+    <th>Tenant Bed Number</th>
+    <th>Tenant House Name</th>
+    <th>Action</th>
+  </tr>
+
+  {% for tenant in tenants %}
+  <tr>
+
+    <td>{{tenant.name}}</td>
+    <td>{{tenant.age}}</td>
+    <td>{{tenant.room_number}}</td>
+    <td>{{tenant.bed_number}}</td>
+    <td>{{tenant.house_name}}</td>
+    <td><a href=''>Edit</a> / <a href=''>Delete</a></td>
+  </tr>
+  {% endfor %}
+  {%endif%}
+</table>
 {% if houses is defined and houses|length > 0 %}
+<h3>Houses </h3>
 <table>
   <tr>
     <th>House Name</th>
@@ -49,14 +73,14 @@ User Id {{ current_user.id }}
   </tr>
   {% endfor %}
   {%endif%}
-
-
-
 </table>
-
-
 <!-- --------------------------------------------- -->
-
+<hr>
+<h3>Profile Options</h3>
+User Id {{ current_user.id }} <br>
+<a href="/addhouse">Add House To Track</a> <br>
+<a href="/addtenant">Add Tenant</a> <br>
+<a href="/logout">Logout</a> <br>
 
 
 {% endblock %}
