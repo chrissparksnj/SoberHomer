@@ -48,7 +48,10 @@
     <td>{{tenant.room_number}}</td>
     <td>{{tenant.bed_number}}</td>
     <td>{{tenant.house_name}}</td>
-    <td></td>
+    <td>{{tenant.rent_status}}
+      {%if tenant.rent_status == "unpaid"%}/<a href='/payrent/{{tenant.id}}'> Mark as
+        paid</a>{%endif%}
+    </td>
     <td><a href='/edittenant/{{tenant.id}}'>Edit</a> / <a href='/deletetenant/{{tenant.id}}'>Remove</a></td>
   </tr>
   {% endfor %}

@@ -52,6 +52,7 @@ class Tenant(db.Model, UserMixin):
     house_name = db.Column(db.String(80), nullable=False)
     room_number = db.Column(db.String(80), nullable=False)
     bed_number = db.Column(db.String(80), nullable=False)
+    rent_status = db.Column(db.String(80), nullable=False)
 
 class RemovedTenant(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
@@ -118,13 +119,21 @@ def addtenant():
         room_number = form.room_number.data
         house_name = form.house_name.data
         bed_number = form.bed_number.data
-        tenant = Tenant(user_id=str(user), bed_number=bed_number, name=str(name), age=age, room_number=str(room_number), house_name=str(house_name))
+        tenant = Tenant(user_id=str(user), bed_number=bed_number, name=str(name), age=age, room_number=str(room_number), house_name=str(house_name), rent_status="Unpaid")
         db.session.add(tenant)
         db.session.commit()
         flash("tenant added")
         return redirect(url_for("dashboard"))
 
     return render_template("/house/addtenant.html", form=form)
+
+@app.route("/payrent/<int:tenant_id>")
+def payrent(tenant_id):
+    tenant = Tenant.query.get(tenant_id)
+    tenant.rent_status = "Paid"
+    db.session.commit()
+    flash(f'Rent status for {tenant.name} updated')
+    return redirect(url_for("dashboard"))
 
 
 @app.route("/deletetenant/<int:id>", methods=['GET', 'POST'])
