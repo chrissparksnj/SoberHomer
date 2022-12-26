@@ -32,23 +32,24 @@
 <h3>Tenants</h3>
 <table>
   <tr>
-    <th>Tenant Name</th>
-    <th>Tenant Age</th>
-    <th>Tenant Room Number</th>
-    <th>Tenant Bed Number</th>
-    <th>Tenant House Name</th>
+    <th>Name</th>
+    <th>Age</th>
+    <th>Room Number</th>
+    <th>Bed Number</th>
+    <th>House Name</th>
+    <th> Rent Status </th>
     <th>Action</th>
   </tr>
 
   {% for tenant in tenants %}
   <tr>
-
     <td>{{tenant.name}}</td>
     <td>{{tenant.age}}</td>
     <td>{{tenant.room_number}}</td>
     <td>{{tenant.bed_number}}</td>
     <td>{{tenant.house_name}}</td>
-    <td><a href=''>Edit</a> / <a href=''>Delete</a></td>
+    <td></td>
+    <td><a href='/edittenant/{{tenant.id}}'>Edit</a> / <a href=''>Delete</a></td>
   </tr>
   {% endfor %}
   {%endif%}
@@ -61,6 +62,7 @@
     <th>House Address</th>
     <th>House Rooms</th>
     <th>House Beds</th>
+    <th>Action</th>
   </tr>
 
   {% for house in houses %}
@@ -70,6 +72,7 @@
     <td>{{house.house_address}}</td>
     <td>{{house.house_rooms}}</td>
     <td>{{house.house_beds}}</td>
+    <td><a href=''>Edit</a> / <a href=''>Delete</a></td>
   </tr>
   {% endfor %}
   {%endif%}

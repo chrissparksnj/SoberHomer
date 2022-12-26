@@ -53,7 +53,6 @@ class Tenant(db.Model, UserMixin):
     room_number = db.Column(db.String(80), nullable=False)
     bed_number = db.Column(db.String(80), nullable=False)
 
-
 def choice_query():
     return House.query
 
@@ -78,7 +77,6 @@ def dashboard():
     tenants = Tenant.query.filter_by(user_id=current_user.id).all()
     houses = House.query.filter_by(user_id=current_user.id).all()
     return render_template("/user/dashboard.html", houses=houses, tenants=tenants)
-
 
 @app.route("/addhouse", methods=['GET', 'POST'])
 @login_required
@@ -118,10 +116,32 @@ def addtenant():
     return render_template("/house/addtenant.html", form=form)
 
 
+@app.route("/delete/<int:id>", methods=['GET', 'POST'])
+def delete(id):
 
+    return render_template("/house/delete.html")
 
+@app.route("/edittenant/<int:user_id>", methods=['GET', 'POST'])
+def edittenant(user_id):
+    tenant = Tenant.query.get(user_id)
+    form = TenantForm()
+    if form.validate_on_submit():
+        tenant.name = form.name.data
+        tenant.age = int(form.age.data)
+        tenant.room_number = form.room_number.data
+        tenant.house_name = str(form.house_name.data)
+        tenant.bed_number = form.bed_number.data
+        
+        db.session.commit()
+        flash("Tenant updated")
+        return redirect(url_for("dashboard"))
+    return render_template("/house/edittenant.html", form=form, tenant=tenant)
 
-
+# @app.route("/edittenant/<int:user_id>", methods=['GET', 'POST'])
+# @login_required
+# def edittenant(user_id):
+#     tenant = Tenant.query.filter_by(id=user_id).first()
+#     return render_template("/house/edittenant.html", tenant=tenant)
 ################################################
 ############## LOGIN/LOGOUT STUFF ##############
 ################################################
@@ -165,7 +185,6 @@ def signup():
         
     return render_template("/user/signup.html", form=form)
 
-
 ################################################
 ############## HELPER STUFF ####################
 ################################################
@@ -173,4 +192,6 @@ def signup():
 def form_to_json():
     data = request.form.to_dict(flat=False)
     return jsonify(data)
+
+
 

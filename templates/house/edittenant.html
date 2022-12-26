@@ -1,0 +1,13 @@
+<h1>Edit Tenant</h1>
+
+<form action="/edittenant/{{tenant.id}}" method="post">
+  Name: {{form.name(value=tenant.name)}} <br>
+  Age: {{form.age(value=tenant.age)}} <br>
+  Room Number: {{form.room_number(value=tenant.room_number)}} <br>
+  Bed Number: {{form.bed_number(value=tenant.bed_number)}} <br>
+  House Name: {{form.house_name}} <br>
+  {{form.csrf_token}}
+
+
+  <input type="submit" value="Edit Tenant" />
+</form>
