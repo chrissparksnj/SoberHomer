@@ -1,0 +1,35 @@
+<style>
+  table,
+  th,
+  td {
+    border: 1px solid black;
+  }
+</style>
+
+<h3>Removed Tenants</h3>
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Age</th>
+    <th>Room Number</th>
+    <th>Bed Number</th>
+    <th>House Name</th>
+
+    <!-- <th>Action</th> -->
+  </tr>
+
+  {% for tenant in tenants %}
+  <tr>
+    <td>{{tenant.name}}</td>
+    <td>{{tenant.age}}</td>
+    <td>{{tenant.room_number}}</td>
+    <td>{{tenant.bed_number}}</td>
+    <td>{{tenant.house_name}}</td>
+
+    <!-- <td><a href='/edittenant/{{tenant.id}}'>Edit</a> / <a href='/deletetenant/{{tenant.id}}'>Remove</a></td> -->
+  </tr>
+  {% endfor %}
+
+</table>
+
+<a href="/dashboard">Back to dashboard</a>

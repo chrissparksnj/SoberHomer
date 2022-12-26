@@ -49,7 +49,7 @@
     <td>{{tenant.bed_number}}</td>
     <td>{{tenant.house_name}}</td>
     <td></td>
-    <td><a href='/edittenant/{{tenant.id}}'>Edit</a> / <a href=''>Delete</a></td>
+    <td><a href='/edittenant/{{tenant.id}}'>Edit</a> / <a href='/deletetenant/{{tenant.id}}'>Remove</a></td>
   </tr>
   {% endfor %}
   {%endif%}
@@ -83,6 +83,7 @@
 User Id {{ current_user.id }} <br>
 <a href="/addhouse">Add House To Track</a> <br>
 <a href="/addtenant">Add Tenant</a> <br>
+<a href="/removedtenants">See Removed Tenants</a> <br>
 <a href="/logout">Logout</a> <br>
 
 

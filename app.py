@@ -53,6 +53,17 @@ class Tenant(db.Model, UserMixin):
     room_number = db.Column(db.String(80), nullable=False)
     bed_number = db.Column(db.String(80), nullable=False)
 
+class RemovedTenant(db.Model, UserMixin):
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.String(80), nullable=False)
+    name = db.Column(db.String(80), nullable=False)
+    age = db.Column(db.Integer, nullable=False)
+    house_name = db.Column(db.String(80), nullable=False)
+    room_number = db.Column(db.String(80), nullable=False)
+    bed_number = db.Column(db.String(80), nullable=False)
+    
+
+
 def choice_query():
     return House.query
 
@@ -116,10 +127,23 @@ def addtenant():
     return render_template("/house/addtenant.html", form=form)
 
 
-@app.route("/delete/<int:id>", methods=['GET', 'POST'])
-def delete(id):
-
-    return render_template("/house/delete.html")
+@app.route("/deletetenant/<int:id>", methods=['GET', 'POST'])
+@login_required
+def deletetenant(id):
+    tenant = Tenant.query.get(id)
+    removedTenant = RemovedTenant(
+        user_id=str(current_user.id), 
+        bed_number=tenant.bed_number, 
+        name=str(tenant.name), 
+        age=tenant.age, 
+        room_number=str(tenant.room_number),
+        house_name=str(tenant.house_name),
+        )
+    db.session.add(removedTenant)
+    db.session.delete(tenant)
+    db.session.commit()
+    flash("Tenant Added to Removed Tenant's List")
+    return redirect(url_for("dashboard"))
 
 @app.route("/edittenant/<int:user_id>", methods=['GET', 'POST'])
 def edittenant(user_id):
@@ -137,11 +161,11 @@ def edittenant(user_id):
         return redirect(url_for("dashboard"))
     return render_template("/house/edittenant.html", form=form, tenant=tenant)
 
-# @app.route("/edittenant/<int:user_id>", methods=['GET', 'POST'])
-# @login_required
-# def edittenant(user_id):
-#     tenant = Tenant.query.filter_by(id=user_id).first()
-#     return render_template("/house/edittenant.html", tenant=tenant)
+
+@app.route("/removedtenants", methods=['GET'])
+def removedtenants():
+    removedTenants = RemovedTenant.query.filter_by(user_id=current_user.id).all()
+    return render_template("/house/removedtenants.html", tenants=removedTenants)
 ################################################
 ############## LOGIN/LOGOUT STUFF ##############
 ################################################
