@@ -6,6 +6,8 @@ from wtforms_sqlalchemy.fields import QuerySelectField
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, SubmitField, IntegerField
 from wtforms.validators import DataRequired, Length, EqualTo, Email
+from datetime import datetime
+
 
 
 app = Flask(__name__)
@@ -86,9 +88,11 @@ def index():
 @app.route("/dashboard")
 @login_required
 def dashboard():
+    now = datetime.now()
+    date_time_str = now.strftime("%m/%d/%y")
     tenants = Tenant.query.filter_by(user_id=current_user.id).all()
     houses = House.query.filter_by(user_id=current_user.id).all()
-    return render_template("/user/dashboard.html", houses=houses, tenants=tenants)
+    return render_template("/user/dashboard.html", houses=houses, tenants=tenants, date=date_time_str)
 
 @app.route("/addhouse", methods=['GET', 'POST'])
 @login_required
@@ -119,7 +123,15 @@ def addtenant():
         room_number = form.room_number.data
         house_name = form.house_name.data
         bed_number = form.bed_number.data
-        tenant = Tenant(user_id=str(user), bed_number=bed_number, name=str(name), age=age, room_number=str(room_number), house_name=str(house_name), rent_status="Unpaid")
+        tenant = Tenant(
+            user_id=str(user), 
+            bed_number=bed_number, 
+            name=str(name), 
+            age=age, 
+            room_number=str(room_number), 
+            house_name=str(house_name), 
+            rent_status="Unpaid"
+            )
         db.session.add(tenant)
         db.session.commit()
         flash("tenant added")
@@ -133,6 +145,24 @@ def payrent(tenant_id):
     tenant.rent_status = "Paid"
     db.session.commit()
     flash(f'Rent status for {tenant.name} updated')
+    return redirect(url_for("dashboard"))
+
+@app.route("/reinstate/<int:tenant_id>")
+def reinstate(tenant_id):
+    tenant = RemovedTenant.query.get(tenant_id)
+    reinstatedTenant = Tenant(
+        user_id=str(current_user.id),
+        bed_number=0,
+        name=str(tenant.name),
+        age=tenant.age,
+        room_number=str(0),
+        house_name=str(tenant.house_name),
+        rent_status="Unpaid"
+    )
+    db.session.add(reinstatedTenant)
+    db.session.delete(tenant)
+    db.session.commit()
+    flash (f'Tenant {tenant.name} reinstated')
     return redirect(url_for("dashboard"))
 
 
@@ -151,7 +181,7 @@ def deletetenant(id):
     db.session.add(removedTenant)
     db.session.delete(tenant)
     db.session.commit()
-    flash("Tenant Added to Removed Tenant's List")
+    flash("Tenant removed from housing")
     return redirect(url_for("dashboard"))
 
 @app.route("/edittenant/<int:user_id>", methods=['GET', 'POST'])

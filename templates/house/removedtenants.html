@@ -14,6 +14,7 @@
     <th>Room Number</th>
     <th>Bed Number</th>
     <th>House Name</th>
+    <th>Action</th>
 
     <!-- <th>Action</th> -->
   </tr>
@@ -25,6 +26,7 @@
     <td>{{tenant.room_number}}</td>
     <td>{{tenant.bed_number}}</td>
     <td>{{tenant.house_name}}</td>
+    <td><a href='/reinstate/{{tenant.id}}'>Reinstate Tenant</a></td>
 
     <!-- <td><a href='/edittenant/{{tenant.id}}'>Edit</a> / <a href='/deletetenant/{{tenant.id}}'>Remove</a></td> -->
   </tr>
